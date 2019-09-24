@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(recyclerViewMain);
     }
     private void initData() {
-        mData.add(new MainItem("下拉刷新",MainActivity.class));
+        mData.add(new MainItem("H5使用",MainActivity.class));
     }
 
 }

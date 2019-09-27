@@ -3,6 +3,7 @@ package com.xxyuan.project;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.xxyuan.project.adapter.RecyclerViewAdapter;
 import com.xxyuan.project.base.BaseActivity;
 import com.xxyuan.project.model.MainItem;
@@ -34,4 +35,12 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("沉侵栏的使用", ImmersionBarActivity.class));
     }
 
+    @Override
+    protected void initImmersionBar() {
+        super.initImmersionBar();
+        ImmersionBar.with(this).fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimary)
+                .navigationBarColor(R.color.colorPrimary)
+                .keyboardEnable(true).init();
+    }
 }

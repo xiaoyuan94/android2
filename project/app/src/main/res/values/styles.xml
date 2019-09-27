@@ -11,6 +11,6 @@
     </style>
 
     <style name="BaseTheme" parent="AppTheme">
-        <item name="android:windowFullscreen">true</item>
+<!--        <item name="android:windowFullscreen">true</item>-->
     </style>
 </resources>

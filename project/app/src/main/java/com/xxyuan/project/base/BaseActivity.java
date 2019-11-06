@@ -69,8 +69,10 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void initImmersionBar() {
         //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .init();
+        ImmersionBar.with(this).fitsSystemWindows(true)
+                .statusBarColor(R.color.colorPrimary)
+                .navigationBarColor(R.color.colorPrimary)
+                .keyboardEnable(true).init();
     }
 
     protected void initData() {

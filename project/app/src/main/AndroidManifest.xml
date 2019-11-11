@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.tablayout.TabActivity"></activity>
+        <activity android:name=".ui.jsbridge.JsBridgeActivity"></activity>
+        <activity android:name=".ui.tablayout.TabActivity" />
         <activity android:name=".ui.jetpack.JetpackActivity" />
         <activity
             android:name=".ui.immersionBar.view.ImmersionBarActivity"

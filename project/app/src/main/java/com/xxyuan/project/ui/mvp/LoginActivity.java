@@ -26,15 +26,6 @@ public class LoginActivity extends BaseActivity<LoginContract.LoginView, LoginPr
     protected void initData() {
     }
 
-    @Override
-    public void onCheckFormatSuccess() {
-//        loading.show();
-    }
-
-    @Override
-    public void onCheckFormatFail(String info) {
-//        RxToast.error(mContext, info).show();
-    }
 
     @Override
     public void onLoginSuccess(Login login) {

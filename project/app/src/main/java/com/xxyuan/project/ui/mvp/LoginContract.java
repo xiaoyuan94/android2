@@ -9,10 +9,6 @@ public class LoginContract {
 
     public interface LoginView{
 
-        void onCheckFormatSuccess();
-
-        void onCheckFormatFail(String info);
-
         void onLoginSuccess(Login login);
 
         void onLoginFail(String errorInfo);

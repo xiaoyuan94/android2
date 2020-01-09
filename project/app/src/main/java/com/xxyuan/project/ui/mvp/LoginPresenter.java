@@ -14,25 +14,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.LoginView> {
     }
 
     /**
-     * 检查格式
-     *
-     * @param name
-     * @param password
-     */
-    public void checkFormat(String name, String password) {
-//        if (TextUtils.isEmpty(name)) {
-//            getView().onCheckFormatFail("请输入用户名");
-//        } else if (TextUtils.isEmpty(password)) {
-//            getView().onCheckFormatFail("请输入密码");
-//        } else if (password.length() < 6 || password.length() > 18) {
-//            getView().onCheckFormatFail("密码格式不正确");
-//        } else {
-//            getView().onCheckFormatSuccess();
-//            login(name, password);
-//        }
-    }
-
-    /**
      * 登录
      *
      * @param name

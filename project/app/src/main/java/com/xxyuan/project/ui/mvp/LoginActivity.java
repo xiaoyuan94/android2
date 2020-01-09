@@ -18,16 +18,12 @@ public class LoginActivity extends BaseActivity<LoginContract.LoginView, LoginPr
     }
 
     @Override
-    protected void findViewById() {
-    }
-
-    @Override
     protected LoginPresenter createPresenter() {
         return new LoginPresenter();
     }
 
     @Override
-    protected void getData() {
+    protected void initData() {
     }
 
     @Override

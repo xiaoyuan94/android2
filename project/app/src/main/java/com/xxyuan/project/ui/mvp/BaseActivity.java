@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public abstract class BaseActivity<V, T extends BasePresenter<V>> extends FragmentActivity {
 
     public String TAG = getClass().getSimpleName() + "";
@@ -12,6 +15,7 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends Fragme
     protected T mPresenter;
 
     public Context mContext;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +28,9 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends Fragme
         if (null != mPresenter) {
             mPresenter.attachView((V) this);
         }
-        findViewById();
-        getData();
+        //绑定控件
+        unbinder = ButterKnife.bind(this);
+        initData();
     }
 
 
@@ -35,22 +40,18 @@ public abstract class BaseActivity<V, T extends BasePresenter<V>> extends Fragme
     protected abstract void initActivityView(Bundle savedInstanceState);
 
     /**
-     * 加载页面元素
-     */
-    protected abstract void findViewById();
-
-    /**
      * 创建Presenter 对象
      *
      * @return
      */
     protected abstract T createPresenter();
 
-    protected abstract void getData();
+    protected abstract void initData();
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbinder.unbind();
         if (null != mPresenter) {
             mPresenter.detachView();
         }

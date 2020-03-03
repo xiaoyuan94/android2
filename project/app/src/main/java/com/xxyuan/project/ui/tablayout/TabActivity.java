@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
+import com.xxyuan.project.base.BasePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +33,10 @@ public class TabActivity extends BaseActivity {
         super.initView();
         initTab();
     }
-
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
     /**
      * 初始化tab
      */

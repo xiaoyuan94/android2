@@ -9,16 +9,19 @@ package com.xxyuan.project.base;
  */
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gyf.immersionbar.ImmersionBar;
 import com.xxyuan.project.R;
-import com.xxyuan.project.utils.AppManager;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Activity基类
@@ -26,22 +29,27 @@ import butterknife.ButterKnife;
  * @author geyifeng
  * @date 2017/5/9
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
 
-    protected String mTag = this.getClass().getSimpleName();
+    protected String TAG = this.getClass().getSimpleName();
 
     protected Activity mActivity;
+    public Context context;
+    private ProgressDialog dialog;
+    protected P presenter;
+    protected Unbinder unbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppManager.getInstance().addActivity(this);
         mActivity = this;
+        context = this;
         setContentView(getLayoutId());
         //绑定控件
         ButterKnife.bind(this);
         //初始化沉浸式
         initImmersionBar();
+        presenter = createPresenter();
         //初始化数据
         initData();
         //view与数据绑定
@@ -53,7 +61,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        AppManager.getInstance().removeActivity(this);
+        if (presenter != null) {
+            presenter.detachView();
+        }
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
     }
 
     /**
@@ -63,6 +76,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected abstract int getLayoutId();
 
+    /**
+     * 创建Presenter
+     * @return
+     */
+    protected abstract P createPresenter();
     /**
      * 初始化沉浸式
      * Init immersion bar.
@@ -83,5 +101,51 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setListener() {
     }
+
+    /**
+     * @param s
+     */
+    public void showtoast(String s) {
+        Toast.makeText(context, s, Toast.LENGTH_LONG).show();
+    }
+
+
+    private void closeLoadingDialog() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+
+    private void showLoadingDialog() {
+        if (dialog == null) {
+            dialog = new ProgressDialog(context);
+        }
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    @Override
+    public void showLoading() {
+        showLoadingDialog();
+    }
+
+
+    @Override
+    public void hideLoading() {
+        closeLoadingDialog();
+    }
+
+
+    @Override
+    public void showError(String msg) {
+        showtoast(msg);
+    }
+
+    @Override
+    public void onErrorCode(int code, String msg) {
+        showtoast(msg);
+    }
+
 }
 

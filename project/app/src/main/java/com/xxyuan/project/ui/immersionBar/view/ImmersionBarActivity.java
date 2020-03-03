@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
+import com.xxyuan.project.base.BasePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,11 @@ public class ImmersionBarActivity extends BaseActivity {
     @Override
     protected int getLayoutId() {
         return R.layout.activity_immersion_bar;
+    }
+
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     @Override

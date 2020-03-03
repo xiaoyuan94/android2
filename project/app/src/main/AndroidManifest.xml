@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xxyuan.project">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name=".app.XxyuanApplication"
         android:allowBackup="true"
@@ -14,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.jsbridge.JsBridgeActivity"></activity>
+        <activity android:name=".ui.mvp2.MvpActivity"/>
+        <activity android:name=".ui.jsbridge.JsBridgeActivity" />
         <activity android:name=".ui.tablayout.TabActivity" />
         <activity android:name=".ui.jetpack.JetpackActivity" />
         <activity

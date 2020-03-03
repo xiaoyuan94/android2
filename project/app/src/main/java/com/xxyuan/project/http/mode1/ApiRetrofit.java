@@ -7,7 +7,7 @@ import com.xxyuan.project.http.mode1.base.BaseApiRetrofit;
 
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -30,7 +30,7 @@ public class ApiRetrofit extends BaseApiRetrofit {
                 .baseUrl(MyApi.BASE_URL)
                 .client(getClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(MyApi.class);
     }

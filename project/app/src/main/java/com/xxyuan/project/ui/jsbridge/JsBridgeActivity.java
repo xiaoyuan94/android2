@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.blankj.utilcode.util.LogUtils;
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
+import com.xxyuan.project.base.BasePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,7 +21,10 @@ public class JsBridgeActivity extends BaseActivity {
     protected int getLayoutId() {
         return R.layout.activity_js_bridge;
     }
-
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
     @Override
     protected void initData() {
         super.initData();

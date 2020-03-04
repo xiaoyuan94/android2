@@ -21,7 +21,7 @@ public class MvpPresenter extends BasePresenter<MvpView> {
 
 
     public void getDouban() {
-        addDisposable(apiServer.getDouban(), new BaseObserver<DouBanResBean>(baseView) {
+        addDisposable(apiServer.getDouban(), new BaseObserver<DouBanResBean>(baseView,true) {
             @Override
             public void onSuccess(DouBanResBean douBanResBean) {
                 LogUtils.d(douBanResBean.getTitle());

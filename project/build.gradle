@@ -5,7 +5,7 @@ buildscript {
         //阿里云镜像
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        jcenter() { url 'http://jcenter.bintray.com/' }
+        jcenter()
         maven { url 'https://jitpack.io' }
         google()
         mavenCentral()
@@ -22,7 +22,7 @@ allprojects {
         //阿里云镜像
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
         maven { url 'http://maven.aliyun.com/nexus/content/repositories/jcenter' }
-        jcenter() { url 'http://jcenter.bintray.com/' }
+        jcenter()
         maven { url 'https://jitpack.io' }
         google()
         mavenCentral()

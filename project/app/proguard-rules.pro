@@ -19,8 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--dontwarn com.franmontiel.persistentcookiejar.**
--keep class com.franmontiel.persistentcookiejar.**
+-dontwarn com.xxyuan.project.http.model3.persistentcookiejar.**
+-keep class com.xxyuan.project.http.model3.persistentcookiejar.**
 
 -keepclassmembers class * implements java.io.Serializable {
     static final long serialVersionUID;

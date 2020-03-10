@@ -1,4 +1,4 @@
-package com.xxyuan.project.ui.database.db;
+package com.xxyuan.project.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,10 +31,18 @@ public class MyOpenHelper extends DaoMaster.OpenHelper {
         Log.i("version", oldVersion + "---先前和更新之后的版本---" + newVersion);
         if (oldVersion < newVersion) {
             Log.i("version", oldVersion + "---先前和更新之后的版本---" + newVersion);
-            MigrationHelper.getInstance().migrate(db, StudentDao.class);
+//            MigrationHelper.getInstance().migrate(db, StudentDao.class);
             //更改过的实体类(新增的不用加)   更新UserDao文件 可以添加多个  XXDao.class 文件
-//             MigrationHelper.getInstance().migrate(db, UserDao.class,XXDao.class);
+            MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
+                @Override
+                public void onCreateAllTables(Database db, boolean ifNotExists) {
+                    DaoMaster.createAllTables(db, ifNotExists);
+                }
+                @Override
+                public void onDropAllTables(Database db, boolean ifExists) {
+                    DaoMaster.dropAllTables(db, ifExists);
+                }
+            },StudentDao.class);
         }
-        //MigrationHelper.getInstance().migrate(db,StudentDao.class);
     }
 }

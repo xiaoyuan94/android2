@@ -1,4 +1,4 @@
-package com.xxyuan.project.ui.database.db;
+package com.xxyuan.project.db;
 
 import android.content.Context;
 

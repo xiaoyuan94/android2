@@ -1,4 +1,4 @@
-package com.xxyuan.project.ui.database.db;
+package com.xxyuan.project.db;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -79,7 +79,10 @@ public class DbManager {
             synchronized (DbManager.class) {
                 if (null == mDaoMaster) {
 //                    MyOpenHelper helper = new MyOpenHelper(context,DB_NAME,null);
-                    DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,DB_NAME);
+//                    DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,DB_NAME);
+                    MyOpenHelper helper = new MyOpenHelper(context, "DB_NAME",
+                            null);
+//                    daoMaster = new DaoMaster(helper.getWritableDatabase());
                     mDaoMaster = new DaoMaster(helper.getWritableDatabase());
                 }
             }

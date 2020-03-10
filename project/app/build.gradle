@@ -66,7 +66,7 @@ dependencies {
 }
 
 greendao {
-    schemaVersion 1  //版本
+    schemaVersion 4  //版本
     daoPackage 'com.xxyuan.project.greendao' // 一般为app包名+生成文件的文件夹名
     targetGenDir 'src/main/java' //生成文件路径
 }

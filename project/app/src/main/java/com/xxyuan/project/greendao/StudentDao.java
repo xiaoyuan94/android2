@@ -28,6 +28,9 @@ public class StudentDao extends AbstractDao<Student, Long> {
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property Age = new Property(2, int.class, "age", false, "AGE");
         public final static Property Num = new Property(3, String.class, "num", false, "NUM");
+        public final static Property Info = new Property(4, String.class, "info", false, "INFO");
+        public final static Property Text01 = new Property(5, String.class, "text01", false, "TEXT01");
+        public final static Property Text02 = new Property(6, String.class, "text02", false, "TEXT02");
     }
 
 
@@ -46,7 +49,10 @@ public class StudentDao extends AbstractDao<Student, Long> {
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"NAME\" TEXT," + // 1: name
                 "\"AGE\" INTEGER NOT NULL ," + // 2: age
-                "\"NUM\" TEXT);"); // 3: num
+                "\"NUM\" TEXT," + // 3: num
+                "\"INFO\" TEXT," + // 4: info
+                "\"TEXT01\" TEXT," + // 5: text01
+                "\"TEXT02\" TEXT);"); // 6: text02
     }
 
     /** Drops the underlying database table. */
@@ -74,6 +80,21 @@ public class StudentDao extends AbstractDao<Student, Long> {
         if (num != null) {
             stmt.bindString(4, num);
         }
+ 
+        String info = entity.getInfo();
+        if (info != null) {
+            stmt.bindString(5, info);
+        }
+ 
+        String text01 = entity.getText01();
+        if (text01 != null) {
+            stmt.bindString(6, text01);
+        }
+ 
+        String text02 = entity.getText02();
+        if (text02 != null) {
+            stmt.bindString(7, text02);
+        }
     }
 
     @Override
@@ -95,6 +116,21 @@ public class StudentDao extends AbstractDao<Student, Long> {
         if (num != null) {
             stmt.bindString(4, num);
         }
+ 
+        String info = entity.getInfo();
+        if (info != null) {
+            stmt.bindString(5, info);
+        }
+ 
+        String text01 = entity.getText01();
+        if (text01 != null) {
+            stmt.bindString(6, text01);
+        }
+ 
+        String text02 = entity.getText02();
+        if (text02 != null) {
+            stmt.bindString(7, text02);
+        }
     }
 
     @Override
@@ -108,7 +144,10 @@ public class StudentDao extends AbstractDao<Student, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
             cursor.getInt(offset + 2), // age
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // num
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // num
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // info
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // text01
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // text02
         );
         return entity;
     }
@@ -119,6 +158,9 @@ public class StudentDao extends AbstractDao<Student, Long> {
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setAge(cursor.getInt(offset + 2));
         entity.setNum(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setInfo(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setText01(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setText02(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
      }
     
     @Override

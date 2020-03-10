@@ -80,8 +80,7 @@ public class DbManager {
                 if (null == mDaoMaster) {
 //                    MyOpenHelper helper = new MyOpenHelper(context,DB_NAME,null);
 //                    DaoMaster.OpenHelper helper = new DaoMaster.DevOpenHelper(context,DB_NAME);
-                    MyOpenHelper helper = new MyOpenHelper(context, "DB_NAME",
-                            null);
+                    MyOpenHelper helper = new MyOpenHelper(context, DB_NAME, null);
 //                    daoMaster = new DaoMaster(helper.getWritableDatabase());
                     mDaoMaster = new DaoMaster(helper.getWritableDatabase());
                 }

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -60,5 +60,13 @@ dependencies {
     implementation 'com.liulishuo.okdownload:sqlite:1.0.7'//存储断点信息的数据库
     implementation 'com.liulishuo.okdownload:okhttp:1.0.7'//提供okhttp连接，如果使用的话，需要引入okhttp网络请求库
     implementation 'com.liulishuo.okdownload:filedownloader:1.0.7'
+    //数据库
+    implementation 'org.greenrobot:greendao:3.2.2'
 
+}
+
+greendao {
+    schemaVersion 1  //版本
+    daoPackage 'com.xxyuan.project.greendao' // 一般为app包名+生成文件的文件夹名
+    targetGenDir 'src/main/java' //生成文件路径
 }

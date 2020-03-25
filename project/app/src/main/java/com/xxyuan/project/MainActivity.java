@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("文件下载", FileDownActivity.class));
         mData.add(new MainItem("数据库使用", DataBaseActivity.class));
         mData.add(new MainItem("x5使用", WebViewH5Activity.class));
-        //修改提交测试
+        //修改提交测试,提交分支版本修改
     }
 
     @Override

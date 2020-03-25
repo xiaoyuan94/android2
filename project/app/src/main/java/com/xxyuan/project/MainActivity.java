@@ -45,6 +45,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setAdapter(recyclerViewMain);
     }
     protected void initData() {
+        //主线测试
         mData.add(new MainItem("沉侵栏的使用", ImmersionBarActivity.class));
         mData.add(new MainItem("tab使用", TabActivity.class));
         mData.add(new MainItem("dsbridge桥接的使用", JsBridgeActivity.class));

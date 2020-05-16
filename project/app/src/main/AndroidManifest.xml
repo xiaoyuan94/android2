@@ -22,7 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.marqueeview.MarqueeViewActivity"></activity>
+        <activity android:name=".ui.matchersearchtext.MatcherSearchTextActivity"></activity>
+        <activity android:name=".ui.marqueeview.MarqueeViewActivity" />
         <activity android:name=".ui.h5.WebViewH5Activity" />
         <activity android:name=".ui.database.DataBaseActivity" />
         <activity android:name=".ui.filedown.FileDownActivity" />

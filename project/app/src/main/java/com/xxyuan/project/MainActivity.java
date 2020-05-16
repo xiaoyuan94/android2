@@ -13,6 +13,7 @@ import com.xxyuan.project.ui.filedown.FileDownActivity;
 import com.xxyuan.project.ui.h5.WebViewH5Activity;
 import com.xxyuan.project.ui.immersionBar.view.ImmersionBarActivity;
 import com.xxyuan.project.ui.jsbridge.JsBridgeActivity;
+import com.xxyuan.project.ui.marqueeview.MarqueeViewActivity;
 import com.xxyuan.project.ui.mvp2.MvpActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
 
@@ -53,7 +54,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("文件下载", FileDownActivity.class));
         mData.add(new MainItem("数据库使用", DataBaseActivity.class));
         mData.add(new MainItem("x5使用", WebViewH5Activity.class));
-        //修改提交测试
+        mData.add(new MainItem("自动上下滚屏", MarqueeViewActivity.class));
     }
 
     @Override

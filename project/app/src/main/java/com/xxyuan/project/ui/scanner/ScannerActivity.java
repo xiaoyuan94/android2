@@ -55,20 +55,10 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         initPermission();
 
         CardFragment cardFragment = CardFragment.newInstance();
-//        CaptureFragment captureFragment = new CaptureFragment();
-//        captureFragment.setAnalyzeCallback(analyzeCallback);
-//        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
-//            @Override
-//            public void callBack(Exception e) {
-//                if (e == null) {
-//
-//                } else {
-//                    Log.e("TAG", "callBack: ", e);
-//                }
-//            }
-//        });
+        CaptureFragment captureFragment = new CaptureFragment();
+        captureFragment.setAnalyzeCallback(analyzeCallback);
         mFragmentList.add(cardFragment);
-//        mFragmentList.add(captureFragment);
+        mFragmentList.add(captureFragment);
         switchFragment(0);
     }
 

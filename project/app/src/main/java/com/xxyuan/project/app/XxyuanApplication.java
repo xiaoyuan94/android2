@@ -3,6 +3,7 @@ package com.xxyuan.project.app;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
 import com.blankj.utilcode.util.LogUtils;
@@ -11,6 +12,8 @@ import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.gyf.immersionbar.OnKeyboardListener;
 import com.xxyuan.project.R;
+import com.xxyuan.project.ui.scanner.bar.DisplayUtil;
+import com.xxyuan.project.ui.scanner.bar.ZXingLibrary;
 
 /**
  * @ClassName XxyuanApplication
@@ -29,8 +32,9 @@ public class XxyuanApplication extends Application {
         mContext = getApplicationContext();
         //初始化utils
         initUtils();
+        //初始化尺寸
+        ZXingLibrary.initDisplayOpinion(mContext);
     }
-
 
 
     /**

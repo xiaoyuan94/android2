@@ -64,14 +64,14 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Bundle bundle = getArguments();
+//        Bundle bundle = getArguments();
         View view = null;
-        if (bundle != null) {
-            int layoutId = bundle.getInt(CodeUtils.LAYOUT_ID);
-            if (layoutId != -1) {
-                view = inflater.inflate(layoutId, null);
-            }
-        }
+//        if (bundle != null) {
+//            int layoutId = bundle.getInt(CodeUtils.LAYOUT_ID);
+//            if (layoutId != -1) {
+//                view = inflater.inflate(layoutId, null);
+//            }
+//        }
 
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_capture, null);
@@ -264,7 +264,7 @@ public class CaptureFragment extends Fragment implements SurfaceHolder.Callback 
         this.callBack = callBack;
     }
 
-    interface CameraInitCallBack {
+    public interface CameraInitCallBack {
         /**
          * Callback for Camera init result.
          * @param e If is's null,means success.otherwise Camera init failed with the Exception.

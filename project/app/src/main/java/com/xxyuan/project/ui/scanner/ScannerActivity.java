@@ -3,6 +3,7 @@ package com.xxyuan.project.ui.scanner;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -45,6 +46,16 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter> implements S
 //        CardFragment cardFragment = CardFragment.newInstance();
 //        BarFragment barFragment = BarFragment.newInstance();
         captureFragment.setAnalyzeCallback(analyzeCallback);
+        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
+            @Override
+            public void callBack(Exception e) {
+                if (e == null) {
+
+                } else {
+                    Log.e("TAG", "callBack: ", e);
+                }
+            }
+        });
         mFragmentList.add(captureFragment);
 //        mFragmentList.add(cardFragment);
         switchFragment(0);

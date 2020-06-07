@@ -9,6 +9,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -32,6 +33,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     implementation 'com.jakewharton:butterknife:10.2.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     //网络请求
     implementation 'io.reactivex.rxjava2:rxjava:2.2.13'
@@ -65,11 +67,7 @@ dependencies {
     //滚动字体
     implementation project(':xmarqueeview2')
     //扫描相关
-    /* 银行卡号扫描依赖*/
-    implementation 'io.card:android-sdk:5.4.2'
-    /* 二维码*/
     implementation 'com.google.zxing:core:3.3.0'
-    implementation 'org.jsoup:jsoup:1.8.3'
 
 }
 

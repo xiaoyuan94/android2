@@ -1,4 +1,4 @@
-package com.xxyuan.project.ui.scanner;
+package com.xxyuan.project.ui.scanner.card;
 
 import android.app.Activity;
 import android.content.Context;

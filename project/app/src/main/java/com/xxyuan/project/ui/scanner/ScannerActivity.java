@@ -1,12 +1,15 @@
 package com.xxyuan.project.ui.scanner;
 
+import android.Manifest;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -16,15 +19,21 @@ import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
 import com.xxyuan.project.ui.scanner.bar.CaptureFragment;
 import com.xxyuan.project.ui.scanner.bar.CodeUtils;
+import com.xxyuan.project.utils.CheckPermissionUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class ScannerActivity extends BaseActivity<ScannerPresenter> implements ScannerContract.IScannerView {
+public class ScannerActivity extends BaseActivity<ScannerPresenter>
+        implements ScannerContract.IScannerView, EasyPermissions.PermissionCallbacks {
 
 
     @BindView(R.id.content)
@@ -42,23 +51,89 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter> implements S
 
     @Override
     protected void initView() {
-        CaptureFragment captureFragment = new CaptureFragment();
-//        CardFragment cardFragment = CardFragment.newInstance();
-//        BarFragment barFragment = BarFragment.newInstance();
-        captureFragment.setAnalyzeCallback(analyzeCallback);
-        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
-            @Override
-            public void callBack(Exception e) {
-                if (e == null) {
+        //初始化权限
+        initPermission();
 
-                } else {
-                    Log.e("TAG", "callBack: ", e);
-                }
-            }
-        });
-        mFragmentList.add(captureFragment);
-//        mFragmentList.add(cardFragment);
+        CardFragment cardFragment = CardFragment.newInstance();
+//        CaptureFragment captureFragment = new CaptureFragment();
+//        captureFragment.setAnalyzeCallback(analyzeCallback);
+//        captureFragment.setCameraInitCallBack(new CaptureFragment.CameraInitCallBack() {
+//            @Override
+//            public void callBack(Exception e) {
+//                if (e == null) {
+//
+//                } else {
+//                    Log.e("TAG", "callBack: ", e);
+//                }
+//            }
+//        });
+        mFragmentList.add(cardFragment);
+//        mFragmentList.add(captureFragment);
         switchFragment(0);
+    }
+
+    /**
+     * 初始化权限事件
+     */
+    private void initPermission() {
+        //检查权限
+        String[] permissions = CheckPermissionUtils.checkPermission(this);
+        if (permissions.length == 0) {
+            //权限都申请了
+            LogUtils.d("权限都申请了");
+        } else {
+            //申请权限
+            ActivityCompat.requestPermissions(this, permissions, 100);
+        }
+    }
+
+    /**
+     * 请求CAMERA权限码
+     */
+    public static final int REQUEST_CAMERA_PERM = 101;
+
+
+    /**
+     * EsayPermissions接管权限处理逻辑
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
+    @AfterPermissionGranted(REQUEST_CAMERA_PERM)
+    public void cameraTask(int viewId) {
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
+            LogUtils.d("拥有了权限");
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(this, "需要请求camera权限",
+                    REQUEST_CAMERA_PERM, Manifest.permission.CAMERA);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Toast.makeText(this, "执行onPermissionsGranted()...", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(this, "执行onPermissionsDenied()...", Toast.LENGTH_SHORT).show();
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            new AppSettingsDialog.Builder(this, "当前App需要申请camera权限,需要打开设置页面么?")
+                    .setTitle("权限申请")
+                    .setPositiveButton("确认")
+                    .setNegativeButton("取消", null /* click listener */)
+                    .setRequestCode(REQUEST_CAMERA_PERM)
+                    .build()
+                    .show();
+        }
     }
 
     @OnClick({R.id.bt_card, R.id.bt_bar})

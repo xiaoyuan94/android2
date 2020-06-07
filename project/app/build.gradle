@@ -67,7 +67,8 @@ dependencies {
     //滚动字体
     implementation project(':xmarqueeview2')
     //扫描相关
-//    implementation 'com.google.zxing:core:3.3.0'
+//    implementation 'com.google.zxing:core:3.3.3'
+    implementation 'pub.devrel:easypermissions:0.2.0'
 
 }
 

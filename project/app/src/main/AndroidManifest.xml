@@ -31,6 +31,7 @@
             android:name=".ui.scanner.ScannerActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ui.footheadrv.FootHeadRVActivity" />
         <activity android:name=".ui.marqueeview.ViewsFlipperActivity" />

@@ -1,5 +1,6 @@
 package com.xxyuan.project.ui.scanner;
 
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.view.View;
@@ -8,9 +9,12 @@ import android.widget.FrameLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
+import com.xxyuan.project.ui.scanner.bar.CaptureFragment;
+import com.xxyuan.project.ui.scanner.bar.CodeUtils;
 
 import java.util.ArrayList;
 
@@ -37,10 +41,12 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter> implements S
 
     @Override
     protected void initView() {
-        CardFragment cardFragment = CardFragment.newInstance();
-        BarFragment barFragment = BarFragment.newInstance();
-        mFragmentList.add(cardFragment);
-        mFragmentList.add(barFragment);
+        CaptureFragment captureFragment = new CaptureFragment();
+//        CardFragment cardFragment = CardFragment.newInstance();
+//        BarFragment barFragment = BarFragment.newInstance();
+        captureFragment.setAnalyzeCallback(analyzeCallback);
+        mFragmentList.add(captureFragment);
+//        mFragmentList.add(cardFragment);
         switchFragment(0);
     }
 
@@ -88,4 +94,20 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter> implements S
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         return ft;
     }
+
+
+    /**
+     * 二维码解析回调函数
+     */
+    CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
+        @Override
+        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+            LogUtils.d("扫描二维码"+result);
+        }
+
+        @Override
+        public void onAnalyzeFailed() {
+
+        }
+    };
 }

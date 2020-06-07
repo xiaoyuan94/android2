@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- 震动权限 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- 摄像头权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".app.XxyuanApplication"
@@ -25,7 +27,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.scanner.ScannerActivity"/>
+        <activity
+            android:name=".ui.scanner.ScannerActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".ui.footheadrv.FootHeadRVActivity" />
         <activity android:name=".ui.marqueeview.ViewsFlipperActivity" />
         <activity android:name=".ui.marqueeview.AutoRvActivity" />

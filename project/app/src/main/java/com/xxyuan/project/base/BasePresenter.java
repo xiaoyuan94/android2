@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * 来源：
  */
 
-public class BasePresenter<V extends BaseView> {
+public abstract class BasePresenter<V extends BaseView> {
 
     public CompositeDisposable compositeDisposable;
 

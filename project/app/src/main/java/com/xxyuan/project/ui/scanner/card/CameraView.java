@@ -85,7 +85,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             if (autoFocusManager == null) {
                 autoFocusManager = new AutoFocusManager(mCamera);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -117,7 +117,7 @@ public class CameraView extends SurfaceView implements SurfaceHolder.Callback {
             if (autoFocusManager == null) {
                 autoFocusManager = new AutoFocusManager(mCamera);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -33,12 +33,12 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class ScannerActivity extends BaseActivity<ScannerPresenter>
+public class ScannerActivity extends BaseActivity<ScannerContract.IScannerPresenter>
         implements ScannerContract.IScannerView, EasyPermissions.PermissionCallbacks {
 
-    private final int REQUEST_CODE_ALBUM = 101;//相册回调
-    private final int REQUEST_CODE_CAMER = 102;//相机回调
-    private final int REQUEST_CODE_CROP = 103;//裁剪回调
+    public final int REQUEST_CODE_ALBUM = 101;//相册回调
+    public final int REQUEST_CODE_CAMER = 102;//相机回调
+    public final int REQUEST_CODE_CROP = 103;//裁剪回调
 
     @BindView(R.id.content)
     FrameLayout content;
@@ -54,7 +54,7 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
     }
 
     @Override
-    protected ScannerPresenter createPresenter() {
+    protected ScannerContract.IScannerPresenter createPresenter() {
         return new ScannerPresenter(this);
     }
 
@@ -184,8 +184,8 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
     }
 
     //存放头像的File路径
-    public static File imageFile = new File(Environment.getExternalStorageDirectory(),
-            "head_image.jpg");
+    public static File imageFile = new File(Environment.getExternalStorageDirectory(), "head_image.jpg");
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -195,30 +195,13 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         }
         switch (requestCode) {
             case REQUEST_CODE_ALBUM://相册
-                startCrop(data.getData());
+                presenter.startCrop(this,data.getData(),imageFile);
                 break;
             case REQUEST_CODE_CROP://裁剪完成
                 Bitmap cropBitmap = BitmapFactory.decodeFile(imageFile.getPath());
                 iv_xiangce.setImageBitmap(cropBitmap);
                 break;
         }
-    }
-    /**
-     * 裁剪图片
-     * @param data
-     */
-    private void startCrop(Uri data) {
-        CropBean albumCropBean = new CropBean();
-        albumCropBean.inputUri = data;
-        albumCropBean.outputX = 300;
-        albumCropBean.outputY = 300;
-        albumCropBean.caculateAspect();
-        albumCropBean.isReturnData = false;
-        albumCropBean.isReturnData = true;
-        //裁剪后输出的图片文件
-        albumCropBean.outputUri = Uri.fromFile(imageFile);
-        //跳转裁剪
-        CameraUtil.openCrop(this, albumCropBean, REQUEST_CODE_CROP);
     }
 
 

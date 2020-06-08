@@ -29,7 +29,7 @@ import butterknife.Unbinder;
  * @author geyifeng
  * @date 2017/5/9
  */
-public abstract class BaseActivity<P extends BasePresenter> extends AppCompatActivity implements BaseView {
+public abstract class BaseActivity<P extends IBasePresenter> extends AppCompatActivity implements BaseView {
 
     protected String TAG = this.getClass().getSimpleName();
 

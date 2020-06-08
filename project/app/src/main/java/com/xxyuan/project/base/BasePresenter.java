@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
  * 来源：
  */
 
-public abstract class BasePresenter<V extends BaseView> {
+public abstract class BasePresenter<V extends BaseView> implements IBasePresenter {
 
     public CompositeDisposable compositeDisposable;
 
@@ -33,11 +33,13 @@ public abstract class BasePresenter<V extends BaseView> {
     /**
      * 解除绑定
      */
+    @Override
     public void detachView() {
         baseView = null;
         removeDisposable();
     }
 
+    @Override
     public void addDisposable(Observable<?> flowable, BaseObserver observer) {
         if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
@@ -56,6 +58,7 @@ public abstract class BasePresenter<V extends BaseView> {
 //
 //    }
 
+    @Override
     public void removeDisposable() {
         if (compositeDisposable != null) {
             compositeDisposable.dispose();

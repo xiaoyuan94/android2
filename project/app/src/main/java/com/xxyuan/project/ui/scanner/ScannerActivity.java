@@ -55,10 +55,9 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         initPermission();
 
         CardFragment cardFragment = CardFragment.newInstance();
-        CaptureFragment captureFragment = new CaptureFragment();
-        captureFragment.setAnalyzeCallback(analyzeCallback);
+        BarFragment barFragment = BarFragment.newInstance();
         mFragmentList.add(cardFragment);
-        mFragmentList.add(captureFragment);
+        mFragmentList.add(barFragment);
         switchFragment(0);
     }
 
@@ -116,10 +115,10 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Toast.makeText(this, "执行onPermissionsDenied()...", Toast.LENGTH_SHORT).show();
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
-            new AppSettingsDialog.Builder(this, "当前App需要申请camera权限,需要打开设置页面么?")
+            new AppSettingsDialog.Builder(this)
                     .setTitle("权限申请")
                     .setPositiveButton("确认")
-                    .setNegativeButton("取消", null /* click listener */)
+                    .setNegativeButton("取消")
                     .setRequestCode(REQUEST_CAMERA_PERM)
                     .build()
                     .show();
@@ -171,19 +170,4 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         return ft;
     }
 
-
-    /**
-     * 二维码解析回调函数
-     */
-    CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
-        @Override
-        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-            LogUtils.d("扫描二维码"+result);
-        }
-
-        @Override
-        public void onAnalyzeFailed() {
-
-        }
-    };
 }

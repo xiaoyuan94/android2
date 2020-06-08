@@ -1,12 +1,14 @@
 package com.xxyuan.project.ui.scanner;
 
 import android.Manifest;
+import android.content.Intent;
 import android.graphics.Bitmap;
-import android.hardware.Camera;
-import android.os.Bundle;
-import android.util.Log;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -14,18 +16,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.google.android.material.tabs.TabLayout;
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
-import com.xxyuan.project.ui.scanner.bar.CaptureFragment;
-import com.xxyuan.project.ui.scanner.bar.CodeUtils;
 import com.xxyuan.project.utils.CheckPermissionUtils;
+import com.xxyuan.project.utils.camera.CameraUtil;
+import com.xxyuan.project.utils.camera.CropBean;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -35,10 +36,18 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class ScannerActivity extends BaseActivity<ScannerPresenter>
         implements ScannerContract.IScannerView, EasyPermissions.PermissionCallbacks {
 
+    private final int REQUEST_CODE_ALBUM = 101;//相册回调
+    private final int REQUEST_CODE_CAMER = 102;//相机回调
+    private final int REQUEST_CODE_CROP = 103;//裁剪回调
 
     @BindView(R.id.content)
     FrameLayout content;
+    @BindView(R.id.iv_xiangce)
+    ImageView iv_xiangce;
+
     private ArrayList<Fragment> mFragmentList = new ArrayList<>();
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_scanner;
@@ -125,7 +134,7 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         }
     }
 
-    @OnClick({R.id.bt_card, R.id.bt_bar})
+    @OnClick({R.id.bt_card, R.id.bt_bar,R.id.bt_xiangce})
     public void onClicked(View v) {
         switch (v.getId()) {
             case R.id.bt_card:
@@ -134,10 +143,14 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
             case R.id.bt_bar:
                 switchFragment(1);
                 break;
+            case R.id.bt_xiangce:
+                CameraUtil.openAlbum(ScannerActivity.this, REQUEST_CODE_ALBUM);
+                break;
             default:
                 break;
         }
     }
+
 
     public void switchFragment(int idx) {
         for (int i = 0; i < mFragmentList.size(); i++) {
@@ -169,5 +182,45 @@ public class ScannerActivity extends BaseActivity<ScannerPresenter>
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         return ft;
     }
+
+    //存放头像的File路径
+    public static File imageFile = new File(Environment.getExternalStorageDirectory(),
+            "head_image.jpg");
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case REQUEST_CODE_ALBUM://相册
+                startCrop(data.getData());
+                break;
+            case REQUEST_CODE_CROP://裁剪完成
+                Bitmap cropBitmap = BitmapFactory.decodeFile(imageFile.getPath());
+                iv_xiangce.setImageBitmap(cropBitmap);
+                break;
+        }
+    }
+    /**
+     * 裁剪图片
+     * @param data
+     */
+    private void startCrop(Uri data) {
+        CropBean albumCropBean = new CropBean();
+        albumCropBean.inputUri = data;
+        albumCropBean.outputX = 300;
+        albumCropBean.outputY = 300;
+        albumCropBean.caculateAspect();
+        albumCropBean.isReturnData = false;
+        albumCropBean.isReturnData = true;
+        //裁剪后输出的图片文件
+        albumCropBean.outputUri = Uri.fromFile(imageFile);
+        //跳转裁剪
+        CameraUtil.openCrop(this, albumCropBean, REQUEST_CODE_CROP);
+    }
+
+
 
 }

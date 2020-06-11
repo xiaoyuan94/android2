@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,9 +17,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.blankj.utilcode.util.LogUtils;
 import com.xxyuan.project.R;
 import com.xxyuan.project.base.BaseActivity;
+import com.xxyuan.project.ui.scanner.bar.BarFragment;
 import com.xxyuan.project.utils.CheckPermissionUtils;
 import com.xxyuan.project.utils.camera.CameraUtil;
-import com.xxyuan.project.utils.camera.CropBean;
 
 import java.io.File;
 import java.util.ArrayList;

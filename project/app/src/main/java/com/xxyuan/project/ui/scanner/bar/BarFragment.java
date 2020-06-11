@@ -1,4 +1,4 @@
-package com.xxyuan.project.ui.scanner;
+package com.xxyuan.project.ui.scanner.bar;
 
 import android.os.Bundle;
 import android.os.Vibrator;

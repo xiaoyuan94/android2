@@ -1,3 +1,4 @@
 include ':app'
 rootProject.name='project'
 include ':xmarqueeview2'
+include ':dsbridge'

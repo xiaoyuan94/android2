@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //js和java交互
-    implementation 'com.github.wendux:DSBridge-Android:3.0-SNAPSHOT'
+    implementation project(':dsbridge')
     //文件下载
     implementation 'com.liulishuo.okdownload:okdownload:1.0.7'//核心库
     implementation 'com.liulishuo.okdownload:sqlite:1.0.7'//存储断点信息的数据库

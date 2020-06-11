@@ -57,7 +57,6 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("mvp2的使用", MvpActivity.class));
         mData.add(new MainItem("文件下载", FileDownActivity.class));
         mData.add(new MainItem("数据库使用", DataBaseActivity.class));
-        mData.add(new MainItem("x5使用", WebViewH5Activity.class));
         mData.add(new MainItem("自动上下滚屏", MarqueeViewActivity.class));
         mData.add(new MainItem("搜索匹配变色", MatcherSearchTextActivity.class));
         mData.add(new MainItem("rv上下滚动", ViewsFlipperActivity.class));

@@ -1,3 +1,4 @@
+include ':ModuleARouter'
 include ':app'
 rootProject.name='project'
 include ':xmarqueeview2'

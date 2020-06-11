@@ -18,6 +18,7 @@ import com.xxyuan.project.ui.marqueeview.MarqueeViewActivity;
 import com.xxyuan.project.ui.marqueeview.ViewsFlipperActivity;
 import com.xxyuan.project.ui.matchersearchtext.MatcherSearchTextActivity;
 import com.xxyuan.project.ui.mvp2.MvpActivity;
+import com.xxyuan.project.ui.router.MainRouterActivity;
 import com.xxyuan.project.ui.scanner.ScannerActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
 
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("搜索匹配变色", MatcherSearchTextActivity.class));
         mData.add(new MainItem("rv上下滚动", ViewsFlipperActivity.class));
         mData.add(new MainItem("扫描", ScannerActivity.class));
+        mData.add(new MainItem("路由跳转", MainRouterActivity.class));
     }
 
     @Override

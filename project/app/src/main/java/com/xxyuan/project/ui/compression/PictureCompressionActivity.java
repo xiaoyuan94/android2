@@ -4,11 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.xxyuan.project.R;
 
 import java.io.File;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import top.zibin.luban.CompressionPredicate;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -21,8 +25,20 @@ public class PictureCompressionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_compression);
+        ButterKnife.bind(this);
         initData();
     }
+
+    @OnClick({R.id.bt_click_toast})
+    public void onClickView(View view){
+        switch (view.getId()){
+            case R.id.bt_click_toast:
+                ToastUtils.showShort("测试测试测试");
+                break;
+        }
+    }
+
+
 
     private void initData() {
         /**

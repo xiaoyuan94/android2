@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
 
     //基础工具库
-    implementation 'com.blankj:utilcode:1.25.8'
+    implementation 'com.blankj:utilcodex:1.29.0'
     //沉侵栏
     implementation 'com.gyf.immersionbar:immersionbar:3.0.0'
     implementation 'com.gyf.immersionbar:immersionbar-components:3.0.0'

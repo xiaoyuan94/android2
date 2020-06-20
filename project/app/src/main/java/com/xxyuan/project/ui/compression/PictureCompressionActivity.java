@@ -33,6 +33,7 @@ public class PictureCompressionActivity extends AppCompatActivity {
     public void onClickView(View view){
         switch (view.getId()){
             case R.id.bt_click_toast:
+                ToastUtils.setBgResource(R.drawable.shape_login);
                 ToastUtils.showShort("测试测试测试");
                 break;
         }

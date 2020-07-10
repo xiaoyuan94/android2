@@ -85,6 +85,8 @@ dependencies {
     implementation project(':ModuleARouter')
     //图片压缩
     implementation 'top.zibin:Luban:1.1.8'
+    //轮播图
+    implementation 'com.youth.banner:banner:2.0.12'
 }
 
 greendao {

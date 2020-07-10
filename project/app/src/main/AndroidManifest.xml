@@ -27,7 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.compression.PictureCompressionActivity"></activity>
+        <activity android:name=".ui.banner.BannerActivity"></activity>
+        <activity android:name=".ui.compression.PictureCompressionActivity" />
         <activity android:name=".ui.router.MainRouterActivity" />
         <activity
             android:name=".ui.scanner.ScannerActivity"

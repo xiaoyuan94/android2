@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xxyuan.project.R;
@@ -39,6 +40,8 @@ public class MainRouterActivity extends AppCompatActivity {
         ARouter.getInstance().build("/ModuleARouter/RouterActivity")
                 .withString("key3", "MainRouterActivity跳转过去")
                 .navigation();
+
+
 
         /**
          * .withBoolean( String key, boolean value)

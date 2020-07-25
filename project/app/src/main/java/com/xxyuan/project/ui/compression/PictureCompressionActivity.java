@@ -1,6 +1,7 @@
 package com.xxyuan.project.ui.compression;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,6 +51,7 @@ public class PictureCompressionActivity extends AppCompatActivity {
          * setTargetDir	缓存压缩图片路径    String path = Environment.getExternalStorageDirectory() + "/Luban/image/";
          * setCompressListener	压缩回调接口
          * setRenameListener	压缩前重命名接口
+         * NestedScrollView
          */
         Luban.with(this)
 //                .load(photos)

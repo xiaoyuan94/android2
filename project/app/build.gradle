@@ -87,6 +87,10 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     //轮播图
     implementation 'com.youth.banner:banner:2.0.12'
+    //vlayout
+    implementation ('com.alibaba.android:vlayout:1.2.8@aar') {
+        transitive = true
+    }
 }
 
 greendao {

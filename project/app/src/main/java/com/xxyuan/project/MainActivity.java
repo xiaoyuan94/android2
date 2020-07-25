@@ -23,6 +23,7 @@ import com.xxyuan.project.ui.mvp2.MvpActivity;
 import com.xxyuan.project.ui.router.MainRouterActivity;
 import com.xxyuan.project.ui.scanner.ScannerActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
+import com.xxyuan.project.ui.vlayout.VLayoutActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("路由跳转", MainRouterActivity.class));
         mData.add(new MainItem("图片压缩", PictureCompressionActivity.class));
         mData.add(new MainItem("轮播图", BannerActivity.class));
+        mData.add(new MainItem("轮播图", VLayoutActivity.class));
     }
 
     @Override

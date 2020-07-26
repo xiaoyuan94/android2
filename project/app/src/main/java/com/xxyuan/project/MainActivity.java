@@ -10,6 +10,7 @@ import com.xxyuan.project.base.BasePresenter;
 import com.xxyuan.project.model.MainItem;
 import com.xxyuan.project.ui.banner.BannerActivity;
 import com.xxyuan.project.ui.compression.PictureCompressionActivity;
+import com.xxyuan.project.ui.consecutivescroller.ConsecutiveScrollerLayoutActivity;
 import com.xxyuan.project.ui.database.DataBaseActivity;
 import com.xxyuan.project.ui.filedown.FileDownActivity;
 import com.xxyuan.project.ui.h5.WebViewH5Activity;
@@ -67,7 +68,9 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("路由跳转", MainRouterActivity.class));
         mData.add(new MainItem("图片压缩", PictureCompressionActivity.class));
         mData.add(new MainItem("轮播图", BannerActivity.class));
-        mData.add(new MainItem("轮播图", VLayoutActivity.class));
+        mData.add(new MainItem("VLayout", VLayoutActivity.class));
+        mData.add(new MainItem("吸顶", ConsecutiveScrollerLayoutActivity.class));
+
     }
 
     @Override

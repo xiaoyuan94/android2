@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("轮播图", BannerActivity.class));
         mData.add(new MainItem("VLayout", VLayoutActivity.class));
         mData.add(new MainItem("吸顶", ConsecutiveScrollerLayoutActivity.class));
-
+        mData.add(new MainItem("单选标签", com.xxyuan.project.ui.labelsview.MainActivity.class));
     }
 
     @Override

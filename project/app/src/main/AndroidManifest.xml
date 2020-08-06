@@ -27,7 +27,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.consecutivescroller.ConsecutiveScrollerLayoutActivity"></activity>
+        <activity android:name=".ui.labelsview.MainActivity"/>
+        <activity android:name=".ui.consecutivescroller.ConsecutiveScrollerLayoutActivity"/>
         <activity android:name=".ui.vlayout.VLayoutActivity" />
         <activity android:name=".ui.banner.Banner2Activity" />
         <activity android:name=".ui.banner.BannerActivity" />

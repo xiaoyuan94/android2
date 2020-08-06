@@ -45,7 +45,7 @@ public class RVAdapter extends DelegateAdapter.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 3;
     }
 
 

@@ -39,6 +39,7 @@ public class SingleSelectAdapter extends RecyclerView.Adapter<SingleSelectAdapte
         } else {
             holder.tv_select.setTextColor(context.getResources().getColor(R.color.contents_text));
         }
+        holder.tv_select.setSelected(singleSelectVo.isSelect());
 
         holder.tv_select.setOnClickListener(new View.OnClickListener() {
             @Override

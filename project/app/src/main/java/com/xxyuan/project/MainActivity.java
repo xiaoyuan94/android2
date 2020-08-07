@@ -13,6 +13,7 @@ import com.xxyuan.project.ui.compression.PictureCompressionActivity;
 import com.xxyuan.project.ui.consecutivescroller.ConsecutiveScrollerLayoutActivity;
 import com.xxyuan.project.ui.database.DataBaseActivity;
 import com.xxyuan.project.ui.filedown.FileDownActivity;
+import com.xxyuan.project.ui.footheadrv.FootHeadRVActivity;
 import com.xxyuan.project.ui.h5.WebViewH5Activity;
 import com.xxyuan.project.ui.immersionBar.view.ImmersionBarActivity;
 import com.xxyuan.project.ui.jsbridge.JsBridgeActivity;
@@ -23,6 +24,7 @@ import com.xxyuan.project.ui.matchersearchtext.MatcherSearchTextActivity;
 import com.xxyuan.project.ui.mvp2.MvpActivity;
 import com.xxyuan.project.ui.router.MainRouterActivity;
 import com.xxyuan.project.ui.scanner.ScannerActivity;
+import com.xxyuan.project.ui.singleselect.SingleSelectActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
 import com.xxyuan.project.ui.vlayout.VLayoutActivity;
 
@@ -71,6 +73,9 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("VLayout", VLayoutActivity.class));
         mData.add(new MainItem("吸顶", ConsecutiveScrollerLayoutActivity.class));
         mData.add(new MainItem("单选标签", com.xxyuan.project.ui.labelsview.MainActivity.class));
+        mData.add(new MainItem("头部脚部布局", FootHeadRVActivity.class));
+        mData.add(new MainItem("单选列表", SingleSelectActivity.class));
+
     }
 
     @Override

@@ -22,7 +22,7 @@ public class ZoomAnimationActivity extends AppCompatActivity {
         bt_fangda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iv_zoom.setAnimation(AnimationUtils.loadAnimation(ZoomAnimationActivity.this,R.anim.fang_da));
+                iv_zoom.startAnimation(AnimationUtils.loadAnimation(ZoomAnimationActivity.this,R.anim.fang_da));
             }
         });
     }

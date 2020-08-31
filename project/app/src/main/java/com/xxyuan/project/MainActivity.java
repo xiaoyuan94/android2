@@ -3,7 +3,6 @@ package com.xxyuan.project;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.gyf.immersionbar.ImmersionBar;
 import com.xxyuan.project.adapter.RecyclerViewAdapter;
 import com.xxyuan.project.base.BaseActivity;
 import com.xxyuan.project.base.BasePresenter;
@@ -14,10 +13,8 @@ import com.xxyuan.project.ui.consecutivescroller.ConsecutiveScrollerLayoutActivi
 import com.xxyuan.project.ui.database.DataBaseActivity;
 import com.xxyuan.project.ui.filedown.FileDownActivity;
 import com.xxyuan.project.ui.footheadrv.FootHeadRVActivity;
-import com.xxyuan.project.ui.h5.WebViewH5Activity;
 import com.xxyuan.project.ui.immersionBar.view.ImmersionBarActivity;
 import com.xxyuan.project.ui.jsbridge.JsBridgeActivity;
-import com.xxyuan.project.ui.marqueeview.AutoRvActivity;
 import com.xxyuan.project.ui.marqueeview.MarqueeViewActivity;
 import com.xxyuan.project.ui.marqueeview.ViewsFlipperActivity;
 import com.xxyuan.project.ui.matchersearchtext.MatcherSearchTextActivity;
@@ -27,8 +24,8 @@ import com.xxyuan.project.ui.scanner.ScannerActivity;
 import com.xxyuan.project.ui.singleselect.SingleSelectActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
 import com.xxyuan.project.ui.vlayout.VLayoutActivity;
+import com.xxyuan.project.ui.zoom.ZoomAnimationActivity;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +72,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("单选标签", com.xxyuan.project.ui.labelsview.MainActivity.class));
         mData.add(new MainItem("头部脚部布局", FootHeadRVActivity.class));
         mData.add(new MainItem("单选列表", SingleSelectActivity.class));
+        mData.add(new MainItem("放大动画", ZoomAnimationActivity.class));
 
     }
 

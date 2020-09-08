@@ -19,10 +19,25 @@ android {
             }
         }
     }
+    signingConfigs {
+        signingConfig {
+            keyAlias 'xiaoyuan'
+            keyPassword 'xiaoyuan'
+            storeFile file('../project.jks')
+            storePassword 'xiaoyuan'
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+        }
+        debug{
+            signingConfig signingConfigs.signingConfig
         }
     }
     compileOptions {

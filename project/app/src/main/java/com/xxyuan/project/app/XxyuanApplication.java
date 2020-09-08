@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.gyf.immersionbar.OnKeyboardListener;
+import com.tencent.smtt.sdk.QbSdk;
 import com.xxyuan.project.R;
 
 import java.util.List;
@@ -56,6 +57,18 @@ public class XxyuanApplication extends Application {
      */
     private void initUtils() {
         Utils.init(this);
+        //增加这句话
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                LogUtils.d("onCoreInitFinished");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                LogUtils.d("onViewInitFinished  "+b);
+            }
+        });
 
         DoraemonKit.install(this);
         // H5任意门功能需要，非必须

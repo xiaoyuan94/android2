@@ -5,5 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fileopen.FileOpenActivity">
-
+    <com.xxyuan.project.ui.fileopen.SuperFileView2
+        android:id="@+id/superFileView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

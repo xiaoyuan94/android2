@@ -12,6 +12,7 @@ import com.xxyuan.project.ui.compression.PictureCompressionActivity;
 import com.xxyuan.project.ui.consecutivescroller.ConsecutiveScrollerLayoutActivity;
 import com.xxyuan.project.ui.database.DataBaseActivity;
 import com.xxyuan.project.ui.filedown.FileDownActivity;
+import com.xxyuan.project.ui.fileopen.FileOpenActivity;
 import com.xxyuan.project.ui.footheadrv.FootHeadRVActivity;
 import com.xxyuan.project.ui.immersionBar.view.ImmersionBarActivity;
 import com.xxyuan.project.ui.jsbridge.JsBridgeActivity;
@@ -73,6 +74,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("头部脚部布局", FootHeadRVActivity.class));
         mData.add(new MainItem("单选列表", SingleSelectActivity.class));
         mData.add(new MainItem("放大动画", ZoomAnimationActivity.class));
+        mData.add(new MainItem("打开文件", FileOpenActivity.class));
 
     }
 

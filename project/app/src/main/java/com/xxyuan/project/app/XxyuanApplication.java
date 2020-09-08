@@ -10,10 +10,15 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.gyf.immersionbar.BarHide;
 import com.gyf.immersionbar.ImmersionBar;
 import com.gyf.immersionbar.OnKeyboardListener;
 import com.xxyuan.project.R;
+
+import java.util.List;
 
 
 /**
@@ -51,6 +56,15 @@ public class XxyuanApplication extends Application {
      */
     private void initUtils() {
         Utils.init(this);
+
+        DoraemonKit.install(this);
+        // H5任意门功能需要，非必须
+        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+            @Override
+            public void overrideUrlLoading(Context context, String s) {
+                // 使用自己的H5容器打开这个链接
+            }
+        });
     }
 
     public static Context getContext() {

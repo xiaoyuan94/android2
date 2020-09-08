@@ -91,6 +91,10 @@ dependencies {
     implementation ('com.alibaba.android:vlayout:1.2.8@aar') {
         transitive = true
     }
+    //DOKIT滴滴性能优化
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.2.0'
 }
 
 greendao {

@@ -18,6 +18,8 @@ buildscript {
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
 //        classpath "com.alibaba:arouter-register:1.0.2"
+        //流量监控以及其他AOP功能（可选）
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
     }
 }
 

@@ -69,6 +69,9 @@ public class XxyuanApplication extends Application {
                 LogUtils.d("onViewInitFinished  "+b);
             }
         });
+        if (!QbSdk.isTbsCoreInited()){
+            QbSdk.preInit(this,null);
+        }
 
         DoraemonKit.install(this);
         // H5任意门功能需要，非必须

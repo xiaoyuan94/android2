@@ -8,8 +8,10 @@
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.xxyuan.project.ui.smartrefresh.ClassicsHeader
             android:layout_width="match_parent"
@@ -18,7 +20,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:background="#fff"
             android:overScrollMode="never" />
 
@@ -26,4 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <com.scwang.smart.refresh.horizontal.SmartRefreshHorizontal
+        android:id="@+id/refreshLayout2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView2"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:overScrollMode="never"
+            android:orientation="horizontal"
+            android:background="#fff" />
+
+    </com.scwang.smart.refresh.horizontal.SmartRefreshHorizontal>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

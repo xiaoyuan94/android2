@@ -1,6 +1,9 @@
 package com.xxyuan.project.ui.smartrefresh;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.scwang.smart.refresh.layout.constant.SpinnerStyle;
 import com.scwang.smart.refresh.layout.util.SmartUtil;
+import com.xxyuan.project.R;
 
 public class ClassicsHeader extends LinearLayout implements RefreshHeader {
 
@@ -42,6 +46,11 @@ public class ClassicsHeader extends LinearLayout implements RefreshHeader {
         setGravity(Gravity.CENTER);
         mHeaderText = new TextView(context);
         mProgressDrawable = new ProgressDrawable();
+
+//        Resources resources = context.getResources();
+//        AnimationDrawable drawable = resources.getDrawable(R.drawable.a);
+//        imageview.setBackground(drawable);
+
 //        mArrowView = new PathsView(context);
         mProgressView = new ImageView(context);
         mProgressView.setImageDrawable(mProgressDrawable);

@@ -23,6 +23,7 @@ import com.xxyuan.project.ui.mvp2.MvpActivity;
 import com.xxyuan.project.ui.router.MainRouterActivity;
 import com.xxyuan.project.ui.scanner.ScannerActivity;
 import com.xxyuan.project.ui.singleselect.SingleSelectActivity;
+import com.xxyuan.project.ui.smartrefresh.SmartRefreshActivity;
 import com.xxyuan.project.ui.tablayout.TabActivity;
 import com.xxyuan.project.ui.vlayout.VLayoutActivity;
 import com.xxyuan.project.ui.zoom.ZoomAnimationActivity;
@@ -75,6 +76,7 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("单选列表", SingleSelectActivity.class));
         mData.add(new MainItem("放大动画", ZoomAnimationActivity.class));
         mData.add(new MainItem("打开文件", FileOpenActivity.class));
+        mData.add(new MainItem("自定义下拉刷新", SmartRefreshActivity.class));
 
     }
 

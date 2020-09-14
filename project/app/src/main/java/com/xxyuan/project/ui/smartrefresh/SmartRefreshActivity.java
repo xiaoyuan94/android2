@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.scwang.smart.refresh.footer.ClassicsFooter;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.horizontal.HorizontalFooter;
 import com.scwang.smart.refresh.horizontal.HorizontalHeader;
@@ -58,7 +59,7 @@ public class SmartRefreshActivity extends AppCompatActivity {
 //        refreshLayout2.setRefreshFooter(new RefreshFooterWrapper(new MaterialHeader(getContext())), -1, -2);
 
         refreshLayout2.setRefreshHeader(new ClassicsHeader(getContext()));
-        refreshLayout2.setRefreshFooter(new RefreshFooterWrapper(new ClassicsHeader(getContext())), -1, -2);
+        refreshLayout2.setRefreshFooter(new RefreshFooterWrapper(new ClassicsFooter(getContext())), -1, -2);
 
         refreshLayout2.setOnRefreshListener(new OnRefreshListener() {
             @Override

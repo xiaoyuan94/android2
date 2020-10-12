@@ -1,17 +1,14 @@
 package com.xxyuan.project.ui.barrage;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.xxyuan.project.R;
 
@@ -32,6 +29,10 @@ public class BarrageActivity extends AppCompatActivity {
 
     @BindView(R.id.danmu)
     DanmakuView mDanmu;
+    @BindView(R.id.view)
+    View view;
+    @BindView(R.id.sw)
+    Switch sw;
 
     private boolean showDanma;
     private BaseDanmakuParser mBaseDanmakuParser = new BaseDanmakuParser() {//弹幕解析器
@@ -50,6 +51,7 @@ public class BarrageActivity extends AppCompatActivity {
         init();
         setOnListener();
     }
+
     /***
      * 一些初始化工作
      */
@@ -57,13 +59,13 @@ public class BarrageActivity extends AppCompatActivity {
         mDanmu.enableDanmakuDrawingCache(true);
         danmakuContext = DanmakuContext.create();
         danmakuContext.setScaleTextSize(1.1f);
-        mDanmu.prepare(mBaseDanmakuParser,danmakuContext);
+        mDanmu.prepare(mBaseDanmakuParser, danmakuContext);
     }
 
     /***
      * 弹幕的准备工作，发送按钮监听。。
      */
-    private void setOnListener(){
+    private void setOnListener() {
 
         mDanmu.setCallback(new DrawHandler.Callback() {
             @Override
@@ -88,15 +90,29 @@ public class BarrageActivity extends AppCompatActivity {
 
             }
         });
-
-        getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+        sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                if (visibility == View.SYSTEM_UI_FLAG_VISIBLE){
-                    onWindowFocusChanged(true);
-                }
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                hideAllDanMuView(isChecked);
             }
         });
+    }
+
+    /**
+     * 显示或者隐藏弹幕
+     *
+     * @param hide
+     */
+    private void hideAllDanMuView(boolean hide) {
+        if (hide) {
+            if (mDanmu != null) {
+                mDanmu.hide();
+            }
+        } else {
+            if (mDanmu != null) {
+                mDanmu.show();
+            }
+        }
     }
 
     /***
@@ -106,13 +122,13 @@ public class BarrageActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (showDanma){
+                while (showDanma) {
                     int time = new Random().nextInt(300);
                     String content = "" + time;
-                    addDamu(content,false);
+                    addDamu(content, false);
                     try {
                         Thread.sleep(time);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -125,7 +141,7 @@ public class BarrageActivity extends AppCompatActivity {
      * @param content 弹幕的内容
      * @param isSelf 是否是用户发送的弹幕
      */
-    private void addDamu(String content,boolean isSelf) {
+    private void addDamu(String content, boolean isSelf) {
         BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
         danmaku.text = content;
         danmaku.padding = 5;
@@ -133,8 +149,8 @@ public class BarrageActivity extends AppCompatActivity {
         danmaku.textSize = sp2px(20);
         danmaku.setTime(mDanmu.getCurrentTime());
         danmaku.textColor = Color.argb(new Random().nextInt(256), new Random().nextInt(256),
-                new Random().nextInt(256),new Random().nextInt(256));
-        if (isSelf){
+                new Random().nextInt(256), new Random().nextInt(256));
+        if (isSelf) {
             danmaku.borderColor = Color.GREEN;
         }
         mDanmu.addDanmaku(danmaku);
@@ -142,13 +158,13 @@ public class BarrageActivity extends AppCompatActivity {
 
     private float sp2px(int i) {
         final float fontScale = getResources().getDisplayMetrics().scaledDensity;
-        return (int)(i* fontScale +0.5f);
+        return (int) (i * fontScale + 0.5f);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mDanmu!= null && mDanmu.isPrepared()){
+        if (mDanmu != null && mDanmu.isPrepared()) {
             mDanmu.pause();
         }
     }
@@ -156,7 +172,7 @@ public class BarrageActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mDanmu!=null&& mDanmu.isPrepared()&& mDanmu.isPaused()){
+        if (mDanmu != null && mDanmu.isPrepared() && mDanmu.isPaused()) {
             mDanmu.resume();
         }
     }
@@ -165,23 +181,9 @@ public class BarrageActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         showDanma = false;
-        if (mDanmu != null){
+        if (mDanmu != null) {
             mDanmu.release();
             mDanmu = null;
-        }
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus && Build.VERSION.SDK_INT>=19){
-            View deview = getWindow().getDecorView();
-            deview.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    |View.SYSTEM_UI_FLAG_FULLSCREEN
-                    |View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    |View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

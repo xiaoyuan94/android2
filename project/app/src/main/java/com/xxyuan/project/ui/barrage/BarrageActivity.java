@@ -87,7 +87,7 @@ public class BarrageActivity extends AppCompatActivity {
             paint.setColor(0x8125309b);  //弹幕背景颜色
             RectF rectf = new RectF(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2);
 //            canvas.drawRect(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2, paint);
-            canvas.drawRoundRect(rectf,30, 30, paint);
+            canvas.drawRoundRect(rectf,30, 30, paint);//第二个参数是x半径，第三个参数是y半径
         }
 
 

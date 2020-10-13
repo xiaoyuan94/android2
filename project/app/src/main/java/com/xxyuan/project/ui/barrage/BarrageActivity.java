@@ -173,6 +173,7 @@ public class BarrageActivity extends AppCompatActivity {
                 .setMaximumLines(maxLinesPair) //设置最大显示行数
                 .preventOverlapping(overlappingEnablePair); //设置防弹幕重叠，null为允许重叠
         mDanmu.prepare(mBaseDanmakuParser, danmakuContext);
+        mDanmu.enableDanmakuDrawingCache(true);  //提升屏幕绘制效率
     }
 
     /***

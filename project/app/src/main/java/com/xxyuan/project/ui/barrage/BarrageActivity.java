@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -28,6 +29,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +63,7 @@ public class BarrageActivity extends AppCompatActivity {
         }
     };
     private DanmakuContext danmakuContext;
+    Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +75,9 @@ public class BarrageActivity extends AppCompatActivity {
     }
 
 
-    private  class BackgroundCacheStuffer extends SpannedCacheStuffer {
+    private class BackgroundCacheStuffer extends SpannedCacheStuffer {
         // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
-         Paint paint = new Paint();
+        Paint paint = new Paint();
 
         @Override
         public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
@@ -85,9 +89,9 @@ public class BarrageActivity extends AppCompatActivity {
         @Override
         public void drawBackground(BaseDanmaku danmaku, Canvas canvas, float left, float top) {
             paint.setColor(0x8125309b);  //弹幕背景颜色
-            RectF rectf = new RectF(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2);
-//            canvas.drawRect(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2, paint);
-            canvas.drawRoundRect(rectf,30, 30, paint);//第二个参数是x半径，第三个参数是y半径
+//            RectF rectf = new RectF(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2);
+            canvas.drawRect(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2, paint);
+//            canvas.drawRoundRect(rectf, 30, 30, paint);//第二个参数是x半径，第三个参数是y半径
         }
 
 
@@ -169,7 +173,7 @@ public class BarrageActivity extends AppCompatActivity {
                 .setDuplicateMergingEnabled(false)
                 .setScrollSpeedFactor(1.1f) //是否启用合并重复弹幕
                 .setScaleTextSize(1.2f) //设置弹幕滚动速度系数,只对滚动弹幕有效
-                .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer  设置缓存绘制填充器，默认使用{@link SimpleTextCacheStuffer}只支持纯文字显示, 如果需要图文混排请设置{@link SpannedCacheStuffer}如果需要定制其他样式请扩展{@link SimpleTextCacheStuffer}|{@link SpannedCacheStuffer}
+                .setCacheStuffer(new SpannedCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer  设置缓存绘制填充器，默认使用{@link SimpleTextCacheStuffer}只支持纯文字显示, 如果需要图文混排请设置{@link SpannedCacheStuffer}如果需要定制其他样式请扩展{@link SimpleTextCacheStuffer}|{@link SpannedCacheStuffer}
                 .setMaximumLines(maxLinesPair) //设置最大显示行数
                 .preventOverlapping(overlappingEnablePair); //设置防弹幕重叠，null为允许重叠
         mDanmu.prepare(mBaseDanmakuParser, danmakuContext);
@@ -233,21 +237,39 @@ public class BarrageActivity extends AppCompatActivity {
      * 随机产生一些弹幕
      */
     private void generateSomeDanmu() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (showDanma) {
-                    int time = new Random().nextInt(300);
-                    String content = "" + time;
-                    addDamu(content, false);
-                    try {
-                        Thread.sleep(time);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (showDanma) {
+//                    int time = new Random().nextInt(300);
+//                    String content = "" + time;
+//                    addDamu(content, false);
+//                    try {
+//                        Thread.sleep(time);
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
+        //定时发送
+        timer.schedule(new AsyncAddTask(), 0, 1000);
+    }
+
+    class AsyncAddTask extends TimerTask {
+        @Override
+        public void run() {
+            for (int i = 0; i < 20; i++) {
+                int time = new Random().nextInt(300);
+                String content = "timer" + time;
+                addDamu(content, false);
+                try {
+                    Thread.sleep(time);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }).start();
+        }
     }
 
     /***
@@ -298,6 +320,10 @@ public class BarrageActivity extends AppCompatActivity {
         if (mDanmu != null) {
             mDanmu.release();
             mDanmu = null;
+        }
+        if (timer!=null){
+            timer.cancel();
+            timer=null;
         }
     }
 }

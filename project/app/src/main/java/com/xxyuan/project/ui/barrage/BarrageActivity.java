@@ -1,5 +1,6 @@
 package com.xxyuan.project.ui.barrage;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.SystemClock;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -55,6 +59,7 @@ import master.flame.danmaku.ui.widget.DanmakuView;
 
 public class BarrageActivity extends AppCompatActivity {
 
+    private static final int ADD_DAMU = 1001;
     @BindView(R.id.danmu)
     DanmakuView mDanmu;
     @BindView(R.id.view)
@@ -390,7 +395,40 @@ public class BarrageActivity extends AppCompatActivity {
 //            }
 //        }).start();
         //定时发送
-        timer.schedule(new AsyncAddTask(), 0, 1000);
+//        timer.schedule(new AsyncAddTask(), 0, 1000);
+        mHandler.sendEmptyMessage(ADD_DAMU);
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case ADD_DAMU:
+                    sendDamu();
+                    break;
+            }
+        }
+    };
+
+    private void sendDamu() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 20; i++) {
+                    int time = new Random().nextInt(800);
+                    String content = "timer" + time;
+                    addDamu(content, false);
+                    try {
+                        Thread.sleep(time);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                mHandler.sendEmptyMessage(ADD_DAMU);
+            }
+        }).start();
     }
 
     class AsyncAddTask extends TimerTask {

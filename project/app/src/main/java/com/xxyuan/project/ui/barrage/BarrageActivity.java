@@ -1,5 +1,8 @@
 package com.xxyuan.project.ui.barrage;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +24,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.didichuxing.doraemonkit.okgo.utils.IOUtils;
 import com.xxyuan.project.R;
+import com.xxyuan.project.ui.scanner.card.BitmapUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,10 +40,12 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import master.flame.danmaku.controller.DrawHandler;
+import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
+import master.flame.danmaku.danmaku.model.android.AndroidDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
@@ -55,7 +62,6 @@ public class BarrageActivity extends AppCompatActivity {
     @BindView(R.id.sw)
     Switch sw;
 
-    private boolean showDanma;
     private BaseDanmakuParser mBaseDanmakuParser = new BaseDanmakuParser() {//弹幕解析器
         @Override
         protected IDanmakus parse() {
@@ -81,6 +87,7 @@ public class BarrageActivity extends AppCompatActivity {
 
         @Override
         public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
+            //测量的相应方法
             danmaku.padding = 10;  // 在背景绘制模式下增加padding
             super.measure(danmaku, paint, fromWorkerThread);
         }
@@ -98,6 +105,109 @@ public class BarrageActivity extends AppCompatActivity {
         @Override
         public void drawStroke(BaseDanmaku danmaku, String lineText, Canvas canvas, float left, float top, Paint paint) {
             // 禁用描边绘制
+            //绘制的相应方法
+        }
+    }
+
+    public class MyCacheStuffer extends BaseCacheStuffer {
+
+        /**
+         * 文字右边间距
+         */
+        private float RIGHTMARGE;
+        /**
+         * 文字和头像间距
+         */
+        private float LEFTMARGE;
+        /**
+         * 文字和右边线距离
+         */
+        private int TEXT_RIGHT_PADDING;
+        /**
+         * 文字大小
+         */
+        private float TEXT_SIZE;
+        /**
+         * 头像的大小
+         */
+        private float IMAGEHEIGHT;
+
+        public MyCacheStuffer(Activity activity) {
+            // 初始化固定参数，这些参数可以根据自己需求自行设定
+            LEFTMARGE = activity.getResources().getDimension(R.dimen.DIMEN_13dp);
+            RIGHTMARGE = activity.getResources().getDimension(R.dimen.DIMEN_22PX);
+            IMAGEHEIGHT = activity.getResources().getDimension(R.dimen.DIMEN_60PX);
+            TEXT_SIZE = activity.getResources().getDimension(R.dimen.DIMEN_24PX);
+        }
+
+        @Override
+        public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
+            // 初始化数据
+            Map<String, Object> map = (Map<String, Object>) danmaku.tag;
+            String content = (String) map.get("content");
+            Bitmap bitmap = (Bitmap) map.get("bitmap");
+
+            // 设置画笔
+            paint.setTextSize(TEXT_SIZE);
+
+            // 计算名字和内容的长度，取最大值
+            float contentWidth = paint.measureText(content);
+
+            // 设置弹幕区域的宽度
+            danmaku.paintWidth = contentWidth + IMAGEHEIGHT + LEFTMARGE + RIGHTMARGE;
+            // 设置弹幕区域的高度
+            danmaku.paintHeight = IMAGEHEIGHT * 2;
+        }
+
+        @Override
+        public void clearCaches() {
+
+        }
+
+        @Override
+        public void drawDanmaku(BaseDanmaku danmaku, Canvas canvas, float left, float top, boolean fromWorkerThread, AndroidDisplayer.DisplayerConfig displayerConfig) {
+            // 初始化数据
+            Map<String, Object> map = (Map<String, Object>) danmaku.tag;
+            String content = (String) map.get("content");
+            Bitmap bitmap = (Bitmap) map.get("bitmap");
+            String color = (String) map.get("color");
+
+            // 设置画笔
+            Paint paint = new Paint();
+            paint.setTextSize(TEXT_SIZE);
+
+            //绘制背景
+            int textLength = (int) paint.measureText(content);
+            //随机数，主要是为了生成不同颜色的背景的
+            paint.setColor(Color.parseColor(color));
+
+            //获取图片的宽度
+            float rectBgLeft = left;
+            float rectBgTop = top;
+            float rectBgRight = left + IMAGEHEIGHT + textLength + LEFTMARGE + RIGHTMARGE;
+            float rectBgBottom = top + IMAGEHEIGHT;
+            canvas.drawRoundRect(new RectF(rectBgLeft, rectBgTop, rectBgRight, rectBgBottom), IMAGEHEIGHT / 2, IMAGEHEIGHT / 2, paint);
+
+            // 绘制头像
+            float avatorRight = left + IMAGEHEIGHT;
+            float avatorBottom = top + IMAGEHEIGHT;
+            canvas.drawBitmap(bitmap, null, new RectF(left, top, avatorRight, avatorBottom), paint);
+
+            // 绘制弹幕内容,文字白色的
+            paint.setColor(Color.WHITE);
+            float contentLeft = left + IMAGEHEIGHT + LEFTMARGE;
+            //计算文字的相应偏移量
+            Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+            //为基线到字体上边框的距离,即上图中的top
+            float textTop = fontMetrics.top;
+            //为基线到字体下边框的距离,即上图中的bottom
+            float textBottom = fontMetrics.bottom;
+
+            float contentBottom = top + IMAGEHEIGHT / 2;
+            //基线中间点的y轴计算公式
+            int baseLineY = (int) (contentBottom - textTop / 2 - textBottom / 2);
+            //绘制文字
+            canvas.drawText(content, contentLeft, baseLineY, paint);
         }
     }
 
@@ -188,30 +298,57 @@ public class BarrageActivity extends AppCompatActivity {
         mDanmu.setCallback(new DrawHandler.Callback() {
             @Override
             public void prepared() {
-                showDanma = true;
+                //弹幕准备好的时候回掉，这里启动弹幕
                 mDanmu.start();//启动弹幕
                 generateSomeDanmu();
             }
 
             @Override
             public void updateTimer(DanmakuTimer timer) {
-
+                //定时器更新的时候回掉
             }
 
             @Override
             public void danmakuShown(BaseDanmaku danmaku) {
-
+                //弹幕展示的时候回掉
             }
 
             @Override
             public void drawingFinished() {
-
+                //弹幕绘制完成时回掉
             }
         });
         sw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 hideAllDanMuView(isChecked);
+            }
+        });
+
+        mDanmu.setOnDanmakuClickListener(new IDanmakuView.OnDanmakuClickListener() {
+            @Override
+            public boolean onDanmakuClick(IDanmakus danmakus) {
+                //点击事件
+                BaseDanmaku latest = danmakus.last();
+                if (null != latest) {
+                    Map<String, Object> map = (Map<String, Object>) latest.tag;
+                    //获取相应的数据
+                    String userId = (String) map.get("content");
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onDanmakuLongClick(IDanmakus danmakus) {
+                //长按事件
+                return false;
+            }
+
+            @Override
+            public boolean onViewClick(IDanmakuView view) {
+                //这个我没有尝试，但是应该是内部View的点击事件吧！猜测
+                return false;
             }
         });
     }
@@ -272,6 +409,39 @@ public class BarrageActivity extends AppCompatActivity {
         }
     }
 
+    private void addDamu2(){
+        //创建一条弹幕
+        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+
+        if (danmaku == null || mDanmu == null) {
+            return;
+        }
+
+        //设置相应的数据
+        Bitmap showBitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+//        showBitmap = BitmapUtils.getShowPicture(showBitmap);
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("content", "这里是显示的内容");
+        map.put("bitmap", showBitmap);
+        Random random = new Random();
+//        int randomNum = random.nextInt(mContentColorBg.length);
+//        map.put("color", mContentColorBg[randomNum]);
+        //设置相应的tag
+//        danmaku.tag = map;
+        danmaku.textSize = 0;
+        danmaku.padding = 10;
+        danmaku.text = "";
+        // 一定会显示, 一般用于本机发送的弹幕
+        danmaku.priority = 1;
+        danmaku.isLive = false;
+        danmaku.setTime(mDanmu.getCurrentTime());
+        danmaku.textColor = Color.WHITE;
+        // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
+        danmaku.textShadowColor = 0;
+        //添加一条
+        mDanmu.addDanmaku(danmaku);
+    }
+
     /***
      * 添加弹幕的方法
      * @param content 弹幕的内容
@@ -316,7 +486,6 @@ public class BarrageActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        showDanma = false;
         if (mDanmu != null) {
             mDanmu.release();
             mDanmu = null;

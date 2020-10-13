@@ -1,8 +1,16 @@
 package com.xxyuan.project.ui.barrage;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -10,8 +18,15 @@ import android.widget.Switch;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.didichuxing.doraemonkit.okgo.utils.IOUtils;
 import com.xxyuan.project.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -20,8 +35,11 @@ import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.IDanmakus;
+import master.flame.danmaku.danmaku.model.IDisplayer;
+import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
 import master.flame.danmaku.danmaku.model.android.DanmakuContext;
 import master.flame.danmaku.danmaku.model.android.Danmakus;
+import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.ui.widget.DanmakuView;
 
@@ -52,13 +70,108 @@ public class BarrageActivity extends AppCompatActivity {
         setOnListener();
     }
 
+
+    private  class BackgroundCacheStuffer extends SpannedCacheStuffer {
+        // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
+         Paint paint = new Paint();
+
+        @Override
+        public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
+            danmaku.padding = 10;  // 在背景绘制模式下增加padding
+            super.measure(danmaku, paint, fromWorkerThread);
+        }
+
+
+        @Override
+        public void drawBackground(BaseDanmaku danmaku, Canvas canvas, float left, float top) {
+            paint.setColor(0x8125309b);  //弹幕背景颜色
+            RectF rectf = new RectF(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2);
+//            canvas.drawRect(left + 2, top + 2, left + danmaku.paintWidth - 2, top + danmaku.paintHeight - 2, paint);
+            canvas.drawRoundRect(rectf,30, 30, paint);
+        }
+
+
+        @Override
+        public void drawStroke(BaseDanmaku danmaku, String lineText, Canvas canvas, float left, float top, Paint paint) {
+            // 禁用描边绘制
+        }
+    }
+
+    private BaseCacheStuffer.Proxy mCacheStufferAdapter = new BaseCacheStuffer.Proxy() {
+
+        private Drawable mDrawable;
+
+        /**
+         * 在弹幕显示前使用新的text,使用新的text
+         * @param danmaku
+         * @param fromWorkerThread 是否在工作(非UI)线程,在true的情况下可以做一些耗时操作(例如更新Span的drawblae或者其他IO操作)
+         * @return 如果不需重置，直接返回danmaku.text
+         */
+        @Override
+        public void prepareDrawing(final BaseDanmaku danmaku, boolean fromWorkerThread) {
+//            if (danmaku.text instanceof Spanned) { // 根据你的条件检查是否需要需要更新弹幕
+//                // FIXME 这里只是简单启个线程来加载远程url图片，请使用你自己的异步线程池，最好加上你的缓存池
+//                new Thread() {
+//
+//                    @Override
+//                    public void run() {
+//                        String url = "http://www.bilibili.com/favicon.ico";
+//                        InputStream inputStream = null;
+//                        Drawable drawable = mDrawable;
+//                        if (drawable == null) {
+//                            try {
+//                                URLConnection urlConnection = new URL(url).openConnection();
+//                                inputStream = urlConnection.getInputStream();
+//                                drawable = BitmapDrawable.createFromStream(inputStream, "bitmap");
+//                                mDrawable = drawable;
+//                            } catch (MalformedURLException e) {
+//                                e.printStackTrace();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            } finally {
+//                                IOUtils.closeQuietly(inputStream);
+//                            }
+//                        }
+//                        if (drawable != null) {
+//                            drawable.setBounds(0, 0, 100, 100);
+//                            SpannableStringBuilder spannable = createSpannable(drawable);
+//                            danmaku.text = spannable;
+//                            if (mDanmakuView != null) {
+//                                mDanmakuView.invalidateDanmaku(danmaku, false);
+//                            }
+//                            return;
+//                        }
+//                    }
+//                }.start();
+//            }
+        }
+
+        @Override
+        public void releaseResource(BaseDanmaku danmaku) {
+            // TODO 重要:清理含有ImageSpan的text中的一些占用内存的资源 例如drawable
+        }
+    };
+
     /***
      * 一些初始化工作
      */
     private void init() {
         mDanmu.enableDanmakuDrawingCache(true);
         danmakuContext = DanmakuContext.create();
-        danmakuContext.setScaleTextSize(1.1f);
+        // 设置弹幕的最大显示行数
+        HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 2); // 滚动弹幕最大显示2行
+        // 设置是否禁止重叠
+        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
+        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_LR, true);
+        overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_BOTTOM, true);
+        danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3) //设置描边样式
+                .setDuplicateMergingEnabled(false)
+                .setScrollSpeedFactor(1.1f) //是否启用合并重复弹幕
+                .setScaleTextSize(1.2f) //设置弹幕滚动速度系数,只对滚动弹幕有效
+                .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer  设置缓存绘制填充器，默认使用{@link SimpleTextCacheStuffer}只支持纯文字显示, 如果需要图文混排请设置{@link SpannedCacheStuffer}如果需要定制其他样式请扩展{@link SimpleTextCacheStuffer}|{@link SpannedCacheStuffer}
+                .setMaximumLines(maxLinesPair) //设置最大显示行数
+                .preventOverlapping(overlappingEnablePair); //设置防弹幕重叠，null为允许重叠
         mDanmu.prepare(mBaseDanmakuParser, danmakuContext);
     }
 
@@ -146,7 +259,7 @@ public class BarrageActivity extends AppCompatActivity {
         danmaku.text = content;
         danmaku.padding = 5;
         danmaku.priority = 0;
-        danmaku.textSize = sp2px(20);
+        danmaku.textSize = sp2px(14);
         danmaku.setTime(mDanmu.getCurrentTime());
         danmaku.textColor = Color.argb(new Random().nextInt(256), new Random().nextInt(256),
                 new Random().nextInt(256), new Random().nextInt(256));

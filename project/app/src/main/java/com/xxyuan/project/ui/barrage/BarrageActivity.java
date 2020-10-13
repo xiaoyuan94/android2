@@ -285,9 +285,9 @@ public class BarrageActivity extends AppCompatActivity {
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_LR, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_BOTTOM, true);
         danmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3) //设置描边样式
-                .setDuplicateMergingEnabled(false)
-                .setScrollSpeedFactor(1.1f) //是否启用合并重复弹幕
-                .setScaleTextSize(1.2f) //设置弹幕滚动速度系数,只对滚动弹幕有效
+                .setDuplicateMergingEnabled(false)//是否启用合并重复弹幕
+                .setScrollSpeedFactor(3.0f) //设置弹幕滚动速度缩放比例，越大速度越慢
+                .setScaleTextSize(1.0f)
                 .setCacheStuffer(new SpannedCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer  设置缓存绘制填充器，默认使用{@link SimpleTextCacheStuffer}只支持纯文字显示, 如果需要图文混排请设置{@link SpannedCacheStuffer}如果需要定制其他样式请扩展{@link SimpleTextCacheStuffer}|{@link SpannedCacheStuffer}
                 .setMaximumLines(maxLinesPair) //设置最大显示行数
                 .preventOverlapping(overlappingEnablePair); //设置防弹幕重叠，null为允许重叠
@@ -417,8 +417,8 @@ public class BarrageActivity extends AppCompatActivity {
             @Override
             public void run() {
                 for (int i = 0; i < 20; i++) {
-                    int time = new Random().nextInt(800);
-                    String content = "timer" + time;
+                    int time = new Random().nextInt(1000);
+                    String content = "timer奥术大师大所多自产自奥术大师大所多自产自奥术大师大所多自产自" + time;
                     addDamu(content, false);
                     try {
                         Thread.sleep(time);
@@ -486,18 +486,22 @@ public class BarrageActivity extends AppCompatActivity {
      * @param isSelf 是否是用户发送的弹幕
      */
     private void addDamu(String content, boolean isSelf) {
-        BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
-        danmaku.text = content;
-        danmaku.padding = 5;
-        danmaku.priority = 0;
-        danmaku.textSize = sp2px(14);
-        danmaku.setTime(mDanmu.getCurrentTime());
-        danmaku.textColor = Color.argb(new Random().nextInt(256), new Random().nextInt(256),
-                new Random().nextInt(256), new Random().nextInt(256));
-        if (isSelf) {
-            danmaku.borderColor = Color.GREEN;
+        try{
+            BaseDanmaku danmaku = danmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL);
+            danmaku.text = content;
+            danmaku.padding = 5;
+            danmaku.priority = 0;
+            danmaku.textSize = sp2px(14);
+            danmaku.setTime(mDanmu.getCurrentTime());
+            danmaku.textColor = Color.argb(new Random().nextInt(256), new Random().nextInt(256),
+                    new Random().nextInt(256), new Random().nextInt(256));
+            if (isSelf) {
+                danmaku.borderColor = Color.GREEN;
+            }
+            mDanmu.addDanmaku(danmaku);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        mDanmu.addDanmaku(danmaku);
     }
 
     private float sp2px(int i) {

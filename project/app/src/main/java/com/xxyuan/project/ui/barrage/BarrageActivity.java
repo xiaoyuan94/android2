@@ -239,7 +239,7 @@ public class BarrageActivity extends AppCompatActivity {
                 while (showDanma) {
                     int time = new Random().nextInt(300);
                     String content = "" + time;
-                    addDamu(content, true);
+                    addDamu(content, false);
                     try {
                         Thread.sleep(time);
                     } catch (Exception e) {

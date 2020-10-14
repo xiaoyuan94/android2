@@ -278,8 +278,8 @@ public class BarrageActivity extends AppCompatActivity {
         mDanmu.enableDanmakuDrawingCache(true);
         danmakuContext = DanmakuContext.create();
         // 设置弹幕的最大显示行数
-        HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 2); // 滚动弹幕最大显示2行
+//        HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
+//        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 2); // 滚动弹幕最大显示2行
         // 设置是否禁止重叠
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_LR, true);
@@ -289,7 +289,7 @@ public class BarrageActivity extends AppCompatActivity {
                 .setScrollSpeedFactor(3.0f) //设置弹幕滚动速度缩放比例，越大速度越慢
                 .setScaleTextSize(1.0f)
                 .setCacheStuffer(new SpannedCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer  设置缓存绘制填充器，默认使用{@link SimpleTextCacheStuffer}只支持纯文字显示, 如果需要图文混排请设置{@link SpannedCacheStuffer}如果需要定制其他样式请扩展{@link SimpleTextCacheStuffer}|{@link SpannedCacheStuffer}
-                .setMaximumLines(maxLinesPair) //设置最大显示行数
+//                .setMaximumLines(maxLinesPair) //设置最大显示行数
                 .preventOverlapping(overlappingEnablePair); //设置防弹幕重叠，null为允许重叠
         mDanmu.prepare(mBaseDanmakuParser, danmakuContext);
         mDanmu.enableDanmakuDrawingCache(true);  //提升屏幕绘制效率
@@ -418,7 +418,7 @@ public class BarrageActivity extends AppCompatActivity {
             public void run() {
                 for (int i = 0; i < 20; i++) {
                     int time = new Random().nextInt(1000);
-                    String content = "timer奥术大师大所多自产自奥术大师大所多自产自奥术大师大所多自产自" + time;
+                    String content = "timer显示" + time;
                     addDamu(content, false);
                     try {
                         Thread.sleep(time);

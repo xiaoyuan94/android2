@@ -2,6 +2,7 @@ package com.xxyuan.project.ui.barrage;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -268,6 +269,73 @@ public class BarrageActivity extends AppCompatActivity {
         @Override
         public void releaseResource(BaseDanmaku danmaku) {
             // TODO 重要:清理含有ImageSpan的text中的一些占用内存的资源 例如drawable
+        }
+    };
+
+    /**
+     * 绘制弹幕背景(自定义弹幕样式)
+     */
+    public static class BackgroundCacheStuffer2 extends SpannedCacheStuffer {
+        // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
+        Paint paint = new Paint();
+        Paint paint1 = new Paint();
+        Context context;
+        public BackgroundCacheStuffer2(Context context){
+            this.context = context;
+        }
+        @Override
+        public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
+            // 在背景绘制模式下增加padding
+            danmaku.padding = dp2px(7);
+            super.measure(danmaku, paint, fromWorkerThread);
+        }
+        /**
+         * 这个框架并没有设置弹幕行间距的方法，只能自己想办法，画了两个矩形，外面那个是透明的
+         */
+        @Override
+        public void drawBackground(BaseDanmaku danmaku, Canvas canvas, float left, float top) {
+            //画一个大的透明矩形
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(Color.TRANSPARENT);
+            RectF mRectf = new RectF(left, top , left + danmaku.paintWidth, top + danmaku.paintHeight);
+            canvas.drawRect(mRectf,paint);
+            //画一个圆角矩形当做背景
+            paint1.setStyle(Paint.Style.FILL);
+            paint1.setColor(Color.WHITE);
+            paint1.setAlpha(140);
+            paint1.setAntiAlias(true);
+            RectF mRectf2 = new RectF(left + 2 ,top + dp2px(5),
+                    left + danmaku.paintWidth - 2 , top + danmaku.paintHeight - dp2px(5));
+            canvas.drawRoundRect(mRectf2,dp2px(100),dp2px(100),paint1);
+            canvas.save();
+        }
+        @Override
+        public void drawStroke(BaseDanmaku danmaku, String lineText, Canvas canvas, float left, float top, Paint paint) {
+            // 禁用描边绘制
+        }
+        /**
+         * dp转px,工具类里还得传上下文太麻烦了
+         */
+        public  int dp2px(float dpValue) {
+            final float scale = context.getResources().getDisplayMetrics().density;
+            return (int) (dpValue * scale + 0.5f);
+        }
+    }
+    /**
+     * 必须通过这个来设置弹幕背景样式
+     */
+    private BaseCacheStuffer.Proxy mCacheStufferAdapter2 = new BaseCacheStuffer.Proxy() {
+        @Override
+        public void prepareDrawing(final BaseDanmaku danmaku, boolean fromWorkerThread) {
+//            if (danmaku.text instanceof Spanned) { // 根据你的条件检查是否需要需要更新弹幕
+//            }
+        }
+        @Override
+        public void releaseResource(BaseDanmaku danmaku) {
+            // TODO 重要:清理含有ImageSpan的text中的一些占用内存的资源 例如drawable
+            if (danmaku.text instanceof Spanned) {
+                danmaku.text = "";
+            }
         }
     };
 

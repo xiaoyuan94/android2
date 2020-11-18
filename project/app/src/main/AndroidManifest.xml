@@ -28,7 +28,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning,UnusedAttribute">
-        <activity android:name=".ui.barrage.BarrageActivity"/>
+        <activity android:name=".ui.event.EventActivity"></activity>
+        <activity android:name=".ui.barrage.BarrageActivity" />
         <activity android:name=".ui.smartrefresh.SmartRefreshActivity" />
         <activity
             android:name=".ui.fileopen.FileOpenActivity"

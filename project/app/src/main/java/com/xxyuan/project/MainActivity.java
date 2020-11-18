@@ -12,6 +12,7 @@ import com.xxyuan.project.ui.barrage.BarrageActivity;
 import com.xxyuan.project.ui.compression.PictureCompressionActivity;
 import com.xxyuan.project.ui.consecutivescroller.ConsecutiveScrollerLayoutActivity;
 import com.xxyuan.project.ui.database.DataBaseActivity;
+import com.xxyuan.project.ui.event.EventActivity;
 import com.xxyuan.project.ui.filedown.FileDownActivity;
 import com.xxyuan.project.ui.fileopen.FileOpenActivity;
 import com.xxyuan.project.ui.footheadrv.FootHeadRVActivity;
@@ -79,6 +80,8 @@ public class MainActivity extends BaseActivity {
         mData.add(new MainItem("打开文件", FileOpenActivity.class));
         mData.add(new MainItem("自定义下拉刷新", SmartRefreshActivity.class));
         mData.add(new MainItem("弹幕", BarrageActivity.class));
+        mData.add(new MainItem("Event", EventActivity.class));
+
     }
 
     @Override

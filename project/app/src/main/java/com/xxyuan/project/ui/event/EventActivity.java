@@ -24,7 +24,16 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LogUtils.d("bt_event click");
+//                Thread.dumpStack();
+            }
+        });
+
+        bt_event.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                LogUtils.d("bt_event onLongClick");
                 Thread.dumpStack();
+                return false;
             }
         });
     }
@@ -32,8 +41,7 @@ public class EventActivity extends AppCompatActivity {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         LogUtils.d("MotionEvent  click"+ev.toString());
-        Thread.dumpStack();
+//        Thread.dumpStack();
         return super.dispatchTouchEvent(ev);
-
     }
 }
